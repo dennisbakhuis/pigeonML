@@ -83,7 +83,7 @@ def annotate(examples,
             example_process_fn(current_index - 1, annotations[-1][1])
         display()
 
-    def display():
+    def display(self):
         nonlocal current_index
         set_label_text()
         if current_index >= len(examples):
