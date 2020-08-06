@@ -24,7 +24,10 @@ def annotate(examples,
              reset_buttons_after_click=False,
              example_process_fn=None,
              final_process_fn=None,
-             display_fn=display):
+             display_fn=display,
+             include_back=False
+
+             ):
     """
     Build an interactive widget for annotating a list of input examples.
     Parameters
@@ -45,6 +48,7 @@ def annotate(examples,
     example_process_fn: hooked function to call after each example fn(ix, labels)
     final_process_fn: hooked function to call after annotation is done fn(annotations)
     display_fn  : func, function for displaying an example to the user
+    include_back: bool, include option to go back while annotating
 
     Returns
     -------
@@ -62,6 +66,15 @@ def annotate(examples,
         count_label.value = '{} examples annotated, {} examples left'.format(
             len(annotations), len(examples) - current_index
         )
+
+    def show_prev():
+        nonlocal current_index
+        if current_index == 0:
+            for btn in buttons:
+                if btn.description == 'back':
+                    btn.disabled = True
+        current_index -= 2
+        show_next()
 
     def show_next():
         nonlocal current_index
@@ -86,6 +99,9 @@ def annotate(examples,
 
     def skip(btn):
         show_next()
+
+    def prev(btn):
+        show_prev()
 
     count_label = HTML()
     set_label_text()
@@ -161,6 +177,12 @@ def annotate(examples,
         btn = Button(description='skip', button_style='info')
         btn.on_click(skip)
         buttons.append(btn)
+
+    if include_back:
+        btn = Button(description='back', button_style='info')
+        btn.on_click(prev)
+        buttons.append(btn)
+
     if len(buttons) > buttons_in_a_row:
         box = VBox([HBox(buttons[x:x + buttons_in_a_row])
                     for x in range(0, len(buttons), buttons_in_a_row)])
