@@ -73,14 +73,18 @@ def annotate(examples,
             for btn in buttons:
                 if btn.description == 'back':
                     btn.disabled = True
-        current_index -= 2
-        show_next()
+        current_index -= 1
+        display()
 
     def show_next():
         nonlocal current_index
         current_index += 1
         if example_process_fn is not None and current_index > 0:
             example_process_fn(current_index - 1, annotations[-1][1])
+        display()
+
+    def display():
+        nonlocal current_index
         set_label_text()
         if current_index >= len(examples):
             for btn in buttons:
