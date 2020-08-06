@@ -1,5 +1,6 @@
 import random
 import functools
+from collections import OrderedDict
 from IPython.display import display, clear_output
 from ipywidgets import (
         Button,
@@ -69,36 +70,38 @@ def annotate(examples,
 
     def show_prev():
         nonlocal current_index
-        if current_index == 0:
-            for btn in buttons:
-                if btn.description == 'back':
-                    btn.disabled = True
         current_index -= 1
-        display()
+        render()
 
     def show_next():
         nonlocal current_index
         current_index += 1
-        if example_process_fn is not None and current_index > 0:
-            example_process_fn(current_index - 1, annotations[-1][1])
-        display()
+        render()
 
-    def display(self):
+    def render():
         nonlocal current_index
         set_label_text()
+
+        for btn in buttons:
+            if btn.description == 'back':
+                btn.disabled = current_index <= 0
+            else:
+                btn.disabled = current_index > len(examples) - 1
+
         if current_index >= len(examples):
-            for btn in buttons:
-                btn.disabled = True
-            print('Annotation done.')
+            print("Annotation done")
             if final_process_fn is not None:
                 final_process_fn(annotations)
             return
+
         with out:
             clear_output(wait=True)
             display_fn(examples[current_index])
 
     def add_annotation(annotation):
         annotations.append((examples[current_index], annotation))
+        if example_process_fn is not None:
+            example_process_fn(current_index, annotations[-1][1])
         show_next()
 
     def skip(btn):
@@ -186,6 +189,7 @@ def annotate(examples,
         btn = Button(description='back', button_style='info')
         btn.on_click(prev)
         buttons.append(btn)
+
 
     if len(buttons) > buttons_in_a_row:
         box = VBox([HBox(buttons[x:x + buttons_in_a_row])
