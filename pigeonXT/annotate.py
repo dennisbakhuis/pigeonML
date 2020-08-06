@@ -164,4 +164,4 @@ def annotate(examples,
 
     show_next()
 
-    return list(annotations.values())
+    return list(annotations.items())
