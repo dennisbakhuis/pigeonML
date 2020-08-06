@@ -39,7 +39,7 @@ def annotate(examples,
     shuffle: bool, shuffle the examples before annotating
     include_skip: bool, include option to skip example while annotating
     display_fn: func, function for displaying an example to the user
-    include_back: bool, include option to go back while annotating 
+    include_back: bool, include option to go back while annotating
     Returns
     -------
     annotations : list of tuples, list of annotated examples (example, label)
@@ -91,7 +91,7 @@ def annotate(examples,
 
     def add_annotation(annotation):
         annotations[examples[current_index]] = annotation
-        if example_process_fn is not None and current_index > 0:
+        if example_process_fn is not None and current_index >= 0:
             example_process_fn(examples[current_index], annotation)
         show_next()
 
