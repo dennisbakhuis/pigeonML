@@ -39,6 +39,7 @@ def annotate(examples,
     shuffle: bool, shuffle the examples before annotating
     include_skip: bool, include option to skip example while annotating
     display_fn: func, function for displaying an example to the user
+    include_back: bool, include option to go back while annotating 
     Returns
     -------
     annotations : list of tuples, list of annotated examples (example, label)
