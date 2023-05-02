@@ -1,10 +1,12 @@
 """Helper functions to analyse annotations."""
 
+from typing import Dict
+
 
 def get_number_of_annotations_per_label(
     annotations: dict,
     labels: list,
-) -> dict[str, int]:
+) -> Dict[str, int]:
     """
     Get the number of annotations per label.
 
