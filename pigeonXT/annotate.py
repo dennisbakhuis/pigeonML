@@ -16,6 +16,7 @@ from ipywidgets import (
     ToggleButton,
 )
 import pandas as pd
+from typing import Tuple
 
 
 def annotate(
@@ -40,7 +41,7 @@ def annotate(
     bionic_minimal_words: int = 6,
     bionic_first_characters: int = 2,
     checkerboard: bool = False,
-    checkerboard_colors: tuple[str, str] = ("#e1e3e1", "#bab8b8"),
+    checkerboard_colors: Tuple[str, str] = ("#e1e3e1", "#bab8b8"),
 ):
     """
     Build an interactive widget for annotating a list or DataFrame of input examples.
@@ -106,7 +107,7 @@ def annotate(
         minimal words to apply bionic reading (default: 6)
     bionic_first_characters : int
         first character to be bionic (default: 2)
-    checkerboard_colors : tuple[str, str]
+    checkerboard_colors : Tuple[str, str]
         colors to use for the checkerboard pattern. Colors are given as a tuple of two hex color strings.
 
     Returns
